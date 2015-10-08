@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Kaufkroete</string>
+    <string name="slogan">TU WAS GUTES!</string>
+    <string name="home">Startseite</string>
+    <string name="societies">Vereine</string>
+    <string name="shops">Shops</string>
+    <string name="exit">Beenden</string>
+    <string name="please_select_first">Bitte zuerst eine Einrichtung und einen Shop wählen</string>
+    <string name="please_select_a_society">Bitte einen Verein wählen</string>
+    <string name="please_select_a_shop">Bitte einen Shop wählen</string>
+    <string name="go_shopping">Shoppen gehen</string>
+    <string name="my_shop">Mein Shop</string>
+    <string name="my_society">Mein Verein</string>
+</resources>
