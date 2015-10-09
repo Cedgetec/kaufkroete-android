@@ -1,74 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_width="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/slogan"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="24dp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:paddingTop="20dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/my_society"
-        android:textStyle="italic"
-        android:paddingLeft="10dp"
-        android:textSize="18dp"
-        android:paddingTop="25dp" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/slogan"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="24dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:paddingTop="20dp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:id="@+id/my_society"
-        android:paddingLeft="12dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/my_society"
+            android:textStyle="italic"
+            android:paddingLeft="10dp"
+            android:textSize="18dp"
+            android:paddingTop="25dp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/my_shop"
-        android:textStyle="italic"
-        android:paddingLeft="10dp"
-        android:textSize="18dp" />
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/my_society_imageview"
+            android:paddingLeft="12dp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:id="@+id/my_shop"
-        android:paddingLeft="12dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:id="@+id/my_society"
+            android:paddingLeft="12dp" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:text="@string/go_shopping"
-        android:id="@+id/go_shopping"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/my_shop"
+            android:textStyle="italic"
+            android:paddingLeft="10dp"
+            android:textSize="18dp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Fakten"
-        android:textSize="20dp"
-        android:paddingLeft="12dp"/>
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/my_shop_imageview"
+            android:paddingLeft="12dp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_facts"
-        android:text=""
-        android:paddingLeft="18dp"
-        android:paddingRight="18dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:id="@+id/my_shop"
+            android:paddingLeft="12dp" />
 
-</LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:text="@string/go_shopping"
+            android:id="@+id/go_shopping"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/button_blue"
+            android:textColor="#FFFFFFFF" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fakten"
+            android:textSize="20dp"
+            android:paddingLeft="12dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_facts"
+            android:text=""
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp" />
+
+    </LinearLayout>
+
+</ScrollView>

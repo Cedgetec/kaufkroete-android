@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,7 +37,9 @@ public class TabHome extends KaufkroeteFragment {
 
     View mView;
     public TextView tv_my_shop;
+    public ImageView iv_my_shop;
     public TextView tv_my_society;
+    public ImageView iv_my_society;
     public TextView tv_facts;
     private SharedPreferences sharedPreferences;
 
@@ -46,7 +49,9 @@ public class TabHome extends KaufkroeteFragment {
         sharedPreferences = this.getActivity().getSharedPreferences("metadata", Context.MODE_PRIVATE);
         mView = v;
         tv_my_shop = (TextView) mView.findViewById(R.id.my_shop);
+        iv_my_shop = (ImageView) mView.findViewById(R.id.my_shop_imageview);
         tv_my_society = (TextView) mView.findViewById(R.id.my_society);
+        iv_my_society = (ImageView) mView.findViewById(R.id.my_society_imageview);
         tv_my_shop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,6 +65,90 @@ public class TabHome extends KaufkroeteFragment {
             }
         });
         ((TextView) mView.findViewById(R.id.my_shop)).setText(String.valueOf(sharedPreferences.getString("shop_name", "N/A")));
+        CardViewViewHolder cvh = new CardViewViewHolder();
+        cvh.filename = String.valueOf(sharedPreferences.getString("shop_image_url", ""));
+        cvh.imgview = iv_my_shop;
+        if(!cvh.filename.isEmpty()) {
+            new AsyncTask<CardViewViewHolder, Void, CardViewViewHolder>() {
+
+                @Override
+                protected CardViewViewHolder doInBackground(CardViewViewHolder... params) {
+                    //params[0].bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.block_house_steak);
+                    try {
+                        Bitmap bitmap = cacheGetBitmap(params[0].filename);
+                        if (bitmap != null) {
+                            params[0].bitmap = bitmap;
+                        } else {
+                            bitmap = getSocietyImage(params[0].filename);
+                            cacheSaveBitmap(params[0].filename, bitmap);
+                            params[0].bitmap = bitmap;
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        params[0].bitmap = null;
+                    }
+
+                    return params[0];
+                }
+
+                @Override
+                protected void onPostExecute(CardViewViewHolder result) {
+                    try {
+                        ImageView imgView = (ImageView) result.imgview;
+                        if (result.bitmap != null) {
+                            imgView.setImageBitmap((Bitmap) result.bitmap);
+                        } else {
+                            imgView.setImageBitmap(BitmapFactory.decodeResource(getResources(), android.R.drawable.alert_dark_frame));
+                        }
+                        imgView.setScaleType(ImageView.ScaleType.FIT_START);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.execute(cvh);
+        }
+        CardViewViewHolder cvh2 = new CardViewViewHolder();
+        cvh2.filename = String.valueOf(sharedPreferences.getString("societie_image_url", ""));
+        cvh2.imgview = iv_my_society;
+        if(!cvh2.filename.isEmpty()) {
+            new AsyncTask<CardViewViewHolder, Void, CardViewViewHolder>() {
+
+                @Override
+                protected CardViewViewHolder doInBackground(CardViewViewHolder... params) {
+                    //params[0].bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.block_house_steak);
+                    try {
+                        Bitmap bitmap = cacheGetBitmap(params[0].filename);
+                        if (bitmap != null) {
+                            params[0].bitmap = bitmap;
+                        } else {
+                            bitmap = getSocietyImage(params[0].filename);
+                            cacheSaveBitmap(params[0].filename, bitmap);
+                            params[0].bitmap = bitmap;
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        params[0].bitmap = null;
+                    }
+
+                    return params[0];
+                }
+
+                @Override
+                protected void onPostExecute(CardViewViewHolder result) {
+                    try {
+                        ImageView imgView = (ImageView) result.imgview;
+                        if (result.bitmap != null) {
+                            imgView.setImageBitmap((Bitmap) result.bitmap);
+                        } else {
+                            imgView.setImageBitmap(BitmapFactory.decodeResource(getResources(), android.R.drawable.alert_dark_frame));
+                        }
+                        imgView.setScaleType(ImageView.ScaleType.FIT_START);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.execute(cvh2);
+        }
         ((TextView) mView.findViewById(R.id.my_society)).setText(String.valueOf(sharedPreferences.getString("societie_name", "N/A")));
         Button btn_go_shopping = (Button) mView.findViewById(R.id.go_shopping);
         btn_go_shopping.setOnClickListener(new Button.OnClickListener() {
@@ -163,12 +252,30 @@ public class TabHome extends KaufkroeteFragment {
                     @Override
                     public void run() {
                         if(!svh.value[0].isEmpty()&&!svh.value[1].isEmpty()&&!svh.value[2].isEmpty()&&!svh.value[3].isEmpty()) {
-                            svh.textview.setText(Html.fromHtml("Die Kaufkröte sammelt aktuell Spenden für <b>" + svh.value[0] + "</b> Vereine und hat hierfür bereits <b>" + svh.value[1] + "</b> Partner-Shops, ingesammt sind so schon <b>" + svh.value[2] + "€</b> an Spenden zusammegekommen. (Stand: " + new java.util.Date(Long.parseLong(svh.value[3])).toString() + ")"));
+                            svh.textview.setText(Html.fromHtml("Die Kaufkröte sammelt aktuell Spenden für <b>" + svh.value[1] + "</b> Vereine und hat hierfür bereits <b>" + svh.value[0] + "</b> Partner-Shops, ingesammt sind so schon <b>" + svh.value[2] + "€</b> an Spenden zusammegekommen. (Stand: " + new java.util.Date(Long.parseLong(svh.value[3])).toString() + ")"));
                         }
                     }
                 });
             }
         }.execute(svh);
+    }
+
+    public Bitmap cacheGetBitmap(String filename) {
+        try {
+            return BitmapFactory.decodeStream(getActivity().openFileInput(hashString("cache_" + filename)));
+        } catch(Exception e) {
+            return null;
+        }
+    }
+
+    private void cacheSaveBitmap(String filename, Bitmap image) {
+        try {
+            OutputStream fos = getActivity().openFileOutput(hashString("cache_" + filename), Context.MODE_PRIVATE);
+            image.compress(Bitmap.CompressFormat.PNG, 90, fos);
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private String hashString(String in) throws Exception {
@@ -236,8 +343,117 @@ public class TabHome extends KaufkroeteFragment {
         }
     }
 
+    public Bitmap getSocietyImage(String filename) throws IOException {
+
+        HttpURLConnection con = openBlankConnection(filename);
+        con.setRequestMethod("GET");
+
+        if(con.getResponseCode() == 200) {
+            return BitmapFactory.decodeStream(con.getInputStream());
+        } else {
+            throw new IOException();
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser&&(sharedPreferences!=null)) {
+            CardViewViewHolder cvh = new CardViewViewHolder();
+            cvh.filename = String.valueOf(sharedPreferences.getString("shop_image_url", ""));
+            cvh.imgview = iv_my_shop;
+            if(!cvh.filename.isEmpty()) {
+                new AsyncTask<CardViewViewHolder, Void, CardViewViewHolder>() {
+
+                    @Override
+                    protected CardViewViewHolder doInBackground(CardViewViewHolder... params) {
+                        //params[0].bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.block_house_steak);
+                        try {
+                            Bitmap bitmap = cacheGetBitmap(params[0].filename);
+                            if (bitmap != null) {
+                                params[0].bitmap = bitmap;
+                            } else {
+                                bitmap = getSocietyImage(params[0].filename);
+                                cacheSaveBitmap(params[0].filename, bitmap);
+                                params[0].bitmap = bitmap;
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            params[0].bitmap = null;
+                        }
+
+                        return params[0];
+                    }
+
+                    @Override
+                    protected void onPostExecute(CardViewViewHolder result) {
+                        try {
+                            ImageView imgView = (ImageView) result.imgview;
+                            if (result.bitmap != null) {
+                                imgView.setImageBitmap((Bitmap) result.bitmap);
+                            } else {
+                                imgView.setImageBitmap(BitmapFactory.decodeResource(getResources(), android.R.drawable.alert_dark_frame));
+                            }
+                            imgView.setScaleType(ImageView.ScaleType.FIT_START);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.execute(cvh);
+            }
+            CardViewViewHolder cvh2 = new CardViewViewHolder();
+            cvh2.filename = String.valueOf(sharedPreferences.getString("societie_image_url", ""));
+            cvh2.imgview = iv_my_society;
+            if(!cvh2.filename.isEmpty()) {
+                new AsyncTask<CardViewViewHolder, Void, CardViewViewHolder>() {
+
+                    @Override
+                    protected CardViewViewHolder doInBackground(CardViewViewHolder... params) {
+                        //params[0].bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.block_house_steak);
+                        try {
+                            Bitmap bitmap = cacheGetBitmap(params[0].filename);
+                            if (bitmap != null) {
+                                params[0].bitmap = bitmap;
+                            } else {
+                                bitmap = getSocietyImage(params[0].filename);
+                                cacheSaveBitmap(params[0].filename, bitmap);
+                                params[0].bitmap = bitmap;
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            params[0].bitmap = null;
+                        }
+
+                        return params[0];
+                    }
+
+                    @Override
+                    protected void onPostExecute(CardViewViewHolder result) {
+                        try {
+                            ImageView imgView = (ImageView) result.imgview;
+                            if (result.bitmap != null) {
+                                imgView.setImageBitmap((Bitmap) result.bitmap);
+                            } else {
+                                imgView.setImageBitmap(BitmapFactory.decodeResource(getResources(), android.R.drawable.alert_dark_frame));
+                            }
+                            imgView.setScaleType(ImageView.ScaleType.FIT_START);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.execute(cvh2);
+            }
+        }
+    }
+
     private class StatsViewHolder {
         TextView textview;
         String[] value;
+    }
+
+    private class CardViewViewHolder {
+        ImageView imgview;
+        Bitmap bitmap;
+        String filename;
     }
 }

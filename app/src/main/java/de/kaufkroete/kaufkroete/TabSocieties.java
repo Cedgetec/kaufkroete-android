@@ -61,7 +61,7 @@ public class TabSocieties extends KaufkroeteFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         sharedPreferences = this.getActivity().getSharedPreferences("metadata", Context.MODE_PRIVATE);
-        listview_al = new ArrayList[]{new ArrayList<>(), new ArrayList<>(), new ArrayList<>()};
+        listview_al = new ArrayList[]{new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()};
         View v = inflater.inflate(R.layout.tab_societies, container, false);
         lv = (ListView) v.findViewById(R.id.list_view);
         cb_show_all = (CheckBox) v.findViewById(R.id.cb_show_all);
@@ -81,6 +81,7 @@ public class TabSocieties extends KaufkroeteFragment {
                 sharedPreferences.edit().putLong("societie", sfla.getItemId(i)).commit();
                 int index = listview_al[1].indexOf(sharedPreferences.getLong("societie",-1));
                 sharedPreferences.edit().putString("societie_name", (String) listview_al[2].get(index)).commit();
+                sharedPreferences.edit().putString("societie_image_url", (String) listview_al[3].get(index)).commit();
                 if(sharedPreferences.getLong("societie",-1) != -1) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -99,7 +100,7 @@ public class TabSocieties extends KaufkroeteFragment {
                 }
             }
         });
-        sfla = new SocietiesFragmentListAdapter(listview_al[0], listview_al[1], listview_al[2]);
+        sfla = new SocietiesFragmentListAdapter(listview_al[0], listview_al[1], listview_al[2], listview_al[3]);
         lv.setAdapter(sfla);
         vh = new ViewHolder();
         vh.view.add(lv);
@@ -155,6 +156,7 @@ public class TabSocieties extends KaufkroeteFragment {
         listview_al[0].clear();
         listview_al[1].clear();
         listview_al[2].clear();
+        listview_al[3].clear();
         vh.use_cache = use_cache;
         sfla.notifyDataSetChanged();
         new AsyncTask<ViewHolder,Void,ViewHolder>() {
@@ -185,6 +187,7 @@ public class TabSocieties extends KaufkroeteFragment {
                                         listview_al[0].add(cw);
                                         listview_al[1].add((long) ((KKSociety) ((ArrayList) vh.content.get(0)).get(i)).vid);
                                         listview_al[2].add((String) ((KKSociety) ((ArrayList) vh.content.get(0)).get(i)).name);
+                                        listview_al[3].add((String) ((KKSociety) ((ArrayList) vh.content.get(0)).get(i)).image_url);
                                         sfla.notifyDataSetChanged();
                                     }
                                 } else {
@@ -192,6 +195,7 @@ public class TabSocieties extends KaufkroeteFragment {
                                     listview_al[0].add(cw);
                                     listview_al[1].add((long) ((KKSociety) ((ArrayList) vh.content.get(0)).get(i)).vid);
                                     listview_al[2].add((String) ((KKSociety) ((ArrayList) vh.content.get(0)).get(i)).name);
+                                    listview_al[3].add((String) ((KKSociety) ((ArrayList) vh.content.get(0)).get(i)).image_url);
                                     sfla.notifyDataSetChanged();
                                 }
                             }
