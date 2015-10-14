@@ -4,10 +4,11 @@ import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
     public ViewPager pager;
@@ -20,12 +21,12 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle(getTitle());
+        mToolbar.setTitle("  " + getTitle());
         mToolbar.setTitleTextColor(Color.WHITE);
         mToolbar.setLogo(R.mipmap.ic_kaufkroete);
         mToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         //TODO Menu
-        // mToolbar.set
+        //mToolbar.inflateMenu(R.menu.menu);
 
         adapter =  new ViewPagerAdapter(getSupportFragmentManager(), this);
 
