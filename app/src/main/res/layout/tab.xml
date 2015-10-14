@@ -80,7 +80,7 @@
                     android:layout_height="100dp"
                     android:id="@+id/my_shop_imageview"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitCenter"
                     android:layout_margin="6dp"
                     android:layout_gravity="center"/>
 
