@@ -8,8 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp"
-        android:nestedScrollingEnabled="false">
+        android:padding="12dp">
 
         <TextView
             android:id="@+id/textView"
@@ -56,7 +55,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    android:text=""
                     android:id="@+id/my_society"
                     android:gravity="center" />
 
@@ -88,7 +87,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    android:text=""
                     android:id="@+id/my_shop"
                     android:gravity="center" />
 

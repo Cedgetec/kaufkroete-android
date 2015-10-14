@@ -1,6 +1,5 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical">
@@ -17,9 +16,7 @@
             <ImageView
                 android:layout_width="140dp"
                 android:layout_height="100dp"
-                android:id="@+id/shop_image"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+                android:id="@+id/shop_image" />
 
         </LinearLayout>
 
@@ -41,19 +38,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/shop_donation_amount"
-                    android:textSize="28dp"
+                    android:textSize="28sp"
                     android:layout_marginBottom="-6dp"
                     android:layout_marginTop="-6dp"
-                    android:textColor="#000"
-                    android:textAlignment="center"/>
+                    android:textColor="#000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/shop_donations_text"
-                    android:textSize="12dp"
-                    android:textColor="#000"
-                    android:textAlignment="center"/>
+                    android:textSize="12sp"
+                    android:textColor="#000"/>
 
             </LinearLayout>
 
@@ -78,7 +73,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#fff"
-                        android:textSize="15dp"
+                        android:textSize="15sp"
                         android:id="@+id/shop_name"
                         android:lines="1"
                         android:fadingEdge="horizontal"

@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,9 +95,9 @@ public class TabHome extends KaufkroeteFragment {
                 @Override
                 protected void onPostExecute(CardViewViewHolder result) {
                     try {
-                        ImageView imgView = (ImageView) result.imgview;
+                        ImageView imgView = result.imgview;
                         if (result.bitmap != null) {
-                            imgView.setImageBitmap((Bitmap) result.bitmap);
+                            imgView.setImageBitmap(result.bitmap);
                         } else {
                             imgView.setImageBitmap(BitmapFactory.decodeResource(getResources(), android.R.drawable.alert_dark_frame));
                         }
@@ -137,9 +136,9 @@ public class TabHome extends KaufkroeteFragment {
                 @Override
                 protected void onPostExecute(CardViewViewHolder result) {
                     try {
-                        ImageView imgView = (ImageView) result.imgview;
+                        ImageView imgView = result.imgview;
                         if (result.bitmap != null) {
-                            imgView.setImageBitmap((Bitmap) result.bitmap);
+                            imgView.setImageBitmap(result.bitmap);
                         } else {
                             imgView.setImageBitmap(BitmapFactory.decodeResource(getResources(), android.R.drawable.alert_dark_frame));
                         }
@@ -195,7 +194,7 @@ public class TabHome extends KaufkroeteFragment {
                         public void run() {
                             //Toast.makeText(getActivity(), url, Toast.LENGTH_SHORT).show();
                             if(!url[0].isEmpty()&&!url[1].isEmpty()) {
-                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://kaufkroete.de/api/api_referrer.php?sid=" + (String) url[0] + "&vid=" + (String) url[1]));
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://kaufkroete.de/api/api_referrer.php?sid=" + url[0] + "&vid=" + url[1]));
                                 startActivity(browserIntent);
                             } else {
                                 Toast.makeText(getActivity(),getString(R.string.please_select_first),Toast.LENGTH_SHORT).show();
@@ -316,7 +315,7 @@ public class TabHome extends KaufkroeteFragment {
             if ( inputStream != null ) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
+                String receiveString;
                 StringBuilder stringBuilder = new StringBuilder();
 
                 while ( (receiveString = bufferedReader.readLine()) != null ) {
@@ -393,9 +392,9 @@ public class TabHome extends KaufkroeteFragment {
                     @Override
                     protected void onPostExecute(CardViewViewHolder result) {
                         try {
-                            ImageView imgView = (ImageView) result.imgview;
+                            ImageView imgView = result.imgview;
                             if (result.bitmap != null) {
-                                imgView.setImageBitmap((Bitmap) result.bitmap);
+                                imgView.setImageBitmap(result.bitmap);
                             } else {
                                 imgView.setImageBitmap(BitmapFactory.decodeResource(getResources(), android.R.drawable.alert_dark_frame));
                             }
@@ -434,9 +433,9 @@ public class TabHome extends KaufkroeteFragment {
                     @Override
                     protected void onPostExecute(CardViewViewHolder result) {
                         try {
-                            ImageView imgView = (ImageView) result.imgview;
+                            ImageView imgView = result.imgview;
                             if (result.bitmap != null) {
-                                imgView.setImageBitmap((Bitmap) result.bitmap);
+                                imgView.setImageBitmap(result.bitmap);
                             } else {
                                 imgView.setImageBitmap(BitmapFactory.decodeResource(getResources(), android.R.drawable.alert_dark_frame));
                             }

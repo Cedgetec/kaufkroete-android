@@ -1,19 +1,10 @@
 package de.kaufkroete.kaufkroete;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Build;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 
 
 public class MainActivity extends FragmentActivity {
@@ -30,15 +21,11 @@ public class MainActivity extends FragmentActivity {
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(getTitle());
-        mToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        mToolbar.setTitleTextColor(Color.WHITE);
         mToolbar.setLogo(R.mipmap.ic_kaufkroete);
         mToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         //TODO Menu
         // mToolbar.set
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
-        }
 
         adapter =  new ViewPagerAdapter(getSupportFragmentManager(), this);
 

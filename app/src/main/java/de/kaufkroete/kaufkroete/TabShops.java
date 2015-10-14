@@ -1,16 +1,13 @@
 package de.kaufkroete.kaufkroete;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
@@ -42,7 +39,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.List;
 
 public class TabShops extends KaufkroeteFragment {
 
@@ -55,7 +51,7 @@ public class TabShops extends KaufkroeteFragment {
     private String filter = "";
     private boolean refreshing_listview = false;
     private SharedPreferences sharedPreferences;
-    private ArrayList<KKShop> kks_al;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -78,10 +74,10 @@ public class TabShops extends KaufkroeteFragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                sharedPreferences.edit().putLong("shop", sfla.getItemId(i)).commit();
+                sharedPreferences.edit().putLong("shop", sfla.getItemId(i)).apply();
                 int index = listview_al[1].indexOf(sharedPreferences.getLong("shop",-1));
-                sharedPreferences.edit().putString("shop_name",sfla.getName(index)).commit();
-                sharedPreferences.edit().putString("shop_image_url",sfla.getImageUrl(index)).commit();
+                sharedPreferences.edit().putString("shop_name",sfla.getName(index)).apply();
+                sharedPreferences.edit().putString("shop_image_url",sfla.getImageUrl(index)).apply();
                 if(sharedPreferences.getLong("shop",-1) != -1) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -173,7 +169,7 @@ public class TabShops extends KaufkroeteFragment {
                         @Override
                         public void run() {
                             try {
-                                int length = 0;
+                                int length;
                                 if(cb_show_all.isChecked() || !filter.equals("")) {
                                     length = ((ArrayList) vh.content.get(0)).size();
                                 } else {
@@ -186,16 +182,16 @@ public class TabShops extends KaufkroeteFragment {
                                             CardView cw = createCardItem((KKShop) ((ArrayList) vh.content.get(0)).get(i), vh.layout_inflater);
                                             listview_al[0].add(cw);
                                             listview_al[1].add((long) ((KKShop) ((ArrayList) vh.content.get(0)).get(i)).sid);
-                                            listview_al[2].add((String) ((KKShop) ((ArrayList) vh.content.get(0)).get(i)).name);
-                                            listview_al[3].add((String) ((KKShop) ((ArrayList) vh.content.get(0)).get(i)).image_url);
+                                            listview_al[2].add(((KKShop) ((ArrayList) vh.content.get(0)).get(i)).name);
+                                            listview_al[3].add(((KKShop) ((ArrayList) vh.content.get(0)).get(i)).image_url);
                                             sfla.notifyDataSetChanged();
                                         }
                                     } else {
                                         CardView cw = createCardItem((KKShop) ((ArrayList) vh.content.get(0)).get(i), vh.layout_inflater);
                                         listview_al[0].add(cw);
                                         listview_al[1].add((long) ((KKShop) ((ArrayList) vh.content.get(0)).get(i)).sid);
-                                        listview_al[2].add((String) ((KKShop) ((ArrayList) vh.content.get(0)).get(i)).name);
-                                        listview_al[3].add((String) ((KKShop) ((ArrayList) vh.content.get(0)).get(i)).image_url);
+                                        listview_al[2].add(((KKShop) ((ArrayList) vh.content.get(0)).get(i)).name);
+                                        listview_al[3].add(((KKShop) ((ArrayList) vh.content.get(0)).get(i)).image_url);
                                         sfla.notifyDataSetChanged();
                                     }
                                 }
@@ -259,9 +255,9 @@ public class TabShops extends KaufkroeteFragment {
             @Override
             protected void onPostExecute(CardViewViewHolder result) {
                 try {
-                    ImageView imgView = (ImageView) result.imgview;
+                    ImageView imgView = result.imgview;
                     if(result.bitmap != null) {
-                        imgView.setImageBitmap((Bitmap) result.bitmap);
+                        imgView.setImageBitmap(result.bitmap);
                     } else {
                         imgView.setImageBitmap(BitmapFactory.decodeResource(getResources(), android.R.drawable.alert_dark_frame));
                     }
@@ -306,11 +302,11 @@ public class TabShops extends KaufkroeteFragment {
     }
 
     private ArrayList<KKShop> parseJSON(String js) throws JSONException {
-        kks_al = new ArrayList<>();
+        ArrayList<KKShop> kks_al = new ArrayList<>();
         JSONArray pages = new JSONArray(js);
         Log.e("Kaufkroete", js);
         for (int i = 0; i < pages.length(); ++i) {
-            JSONObject rec = pages.getJSONObject(i);;
+            JSONObject rec = pages.getJSONObject(i);
             KKShop kks = new KKShop();
             kks.sid = rec.getInt("sid");
             kks.name = rec.getString("name");
@@ -385,7 +381,7 @@ public class TabShops extends KaufkroeteFragment {
             if ( inputStream != null ) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
+                String receiveString;
                 StringBuilder stringBuilder = new StringBuilder();
 
                 while ( (receiveString = bufferedReader.readLine()) != null ) {
