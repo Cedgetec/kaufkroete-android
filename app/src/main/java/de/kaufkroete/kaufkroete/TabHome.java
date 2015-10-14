@@ -29,6 +29,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.security.MessageDigest;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -253,7 +254,7 @@ public class TabHome extends KaufkroeteFragment {
                     @Override
                     public void run() {
                         if(!svh.value[0].isEmpty()&&!svh.value[1].isEmpty()&&!svh.value[2].isEmpty()&&!svh.value[3].isEmpty()) {
-                            String donations = svh.value[2] + " EUR";
+                            String donations = NumberFormat.getInstance().format(Double.parseDouble(svh.value[2])) + " EUR";
                             svh.textview.setText(donations);
                             String date = "(Stand: " + new SimpleDateFormat("dd. MMM yyyy", Locale.GERMAN).format(new Date()) + ")";
                             svh.textview2.setText(date);
