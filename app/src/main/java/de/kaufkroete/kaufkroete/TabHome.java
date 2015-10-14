@@ -1,6 +1,5 @@
 package de.kaufkroete.kaufkroete;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +20,6 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -32,6 +29,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class TabHome extends KaufkroeteFragment {
 
@@ -40,7 +40,8 @@ public class TabHome extends KaufkroeteFragment {
     public ImageView iv_my_shop;
     public TextView tv_my_society;
     public ImageView iv_my_society;
-    public TextView tv_facts;
+    public TextView tv_donations;
+    public TextView tv_date;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -100,7 +101,6 @@ public class TabHome extends KaufkroeteFragment {
                         } else {
                             imgView.setImageBitmap(BitmapFactory.decodeResource(getResources(), android.R.drawable.alert_dark_frame));
                         }
-                        imgView.setScaleType(ImageView.ScaleType.FIT_START);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -142,7 +142,6 @@ public class TabHome extends KaufkroeteFragment {
                         } else {
                             imgView.setImageBitmap(BitmapFactory.decodeResource(getResources(), android.R.drawable.alert_dark_frame));
                         }
-                        imgView.setScaleType(ImageView.ScaleType.FIT_START);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -157,8 +156,9 @@ public class TabHome extends KaufkroeteFragment {
                 openShop();
             }
         });
-        tv_facts = (TextView) mView.findViewById(R.id.tv_facts);
-        getSumms(tv_facts);
+        tv_donations = (TextView) mView.findViewById(R.id.tv_donations);
+        tv_date = (TextView) mView.findViewById(R.id.tv_date);
+        getSumms(tv_donations, tv_date);
         return v;
     }
 
@@ -215,9 +215,10 @@ public class TabHome extends KaufkroeteFragment {
         }
     }
 
-    public void getSumms(TextView tv) {
+    public void getSumms(TextView tv, TextView tv2) {
         StatsViewHolder svh = new StatsViewHolder();
         svh.textview = tv;
+        svh.textview2 = tv2;
         new AsyncTask<StatsViewHolder ,Void, StatsViewHolder>() {
             @Override
             protected StatsViewHolder doInBackground(StatsViewHolder... svhs) {
@@ -252,7 +253,10 @@ public class TabHome extends KaufkroeteFragment {
                     @Override
                     public void run() {
                         if(!svh.value[0].isEmpty()&&!svh.value[1].isEmpty()&&!svh.value[2].isEmpty()&&!svh.value[3].isEmpty()) {
-                            svh.textview.setText(Html.fromHtml("Die Kaufkröte sammelt aktuell Spenden für <b>" + svh.value[1] + "</b> Vereine und hat hierfür bereits <b>" + svh.value[0] + "</b> Partner-Shops, ingesammt sind so schon <b>" + svh.value[2] + "€</b> an Spenden zusammegekommen. (Stand: " + new java.util.Date(Long.parseLong(svh.value[3])).toString() + ")"));
+                            String donations = svh.value[2] + " EUR";
+                            svh.textview.setText(donations);
+                            String date = "(Stand: " + new SimpleDateFormat("dd. MMM yyyy", Locale.GERMAN).format(new Date()) + ")";
+                            svh.textview2.setText(date);
                         }
                     }
                 });
@@ -394,7 +398,6 @@ public class TabHome extends KaufkroeteFragment {
                             } else {
                                 imgView.setImageBitmap(BitmapFactory.decodeResource(getResources(), android.R.drawable.alert_dark_frame));
                             }
-                            imgView.setScaleType(ImageView.ScaleType.FIT_START);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -436,7 +439,6 @@ public class TabHome extends KaufkroeteFragment {
                             } else {
                                 imgView.setImageBitmap(BitmapFactory.decodeResource(getResources(), android.R.drawable.alert_dark_frame));
                             }
-                            imgView.setScaleType(ImageView.ScaleType.FIT_START);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -448,6 +450,7 @@ public class TabHome extends KaufkroeteFragment {
 
     private class StatsViewHolder {
         TextView textview;
+        TextView textview2;
         String[] value;
     }
 

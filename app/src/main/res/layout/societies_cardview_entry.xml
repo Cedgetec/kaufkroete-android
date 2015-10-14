@@ -39,7 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/society_donation_amount"
-                    android:textSize="28dp"
+                    android:textSize="28sp"
                     android:layout_marginBottom="-6dp"
                     android:layout_marginTop="-6dp"
                     android:textColor="#000"
@@ -49,7 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/society_donations"
-                    android:textSize="12dp"
+                    android:textSize="12sp"
                     android:textColor="#000"
                     android:textAlignment="center"/>
 
@@ -76,7 +76,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#fff"
-                        android:textSize="15dp"
+                        android:textSize="15sp"
                         android:id="@+id/society_name"
                         android:lines="1"
                         android:fadingEdge="horizontal"
