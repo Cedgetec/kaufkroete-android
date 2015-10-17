@@ -13,6 +13,9 @@
     <string name="go_shopping">Shoppen gehen</string>
     <string name="my_shop">Mein Shop</string>
     <string name="my_society">Mein Verein</string>
-    <string name="donations">Spendensumme</string>
+    <string name="donation_sum">Spendensumme</string>
     <string name="show_all">Alle anzeigen</string>
+    <string name="donations">Spenden</string>
+    <string name="euros">Euro</string>
+    <string name="percent">Prozent</string>
 </resources>

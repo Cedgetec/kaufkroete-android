@@ -219,7 +219,7 @@ public class TabShops extends KaufkroeteFragment {
         scv.setLayoutParams(params);
         i.inflate(R.layout.shops_cardview_entry, scv, true);
         ((TextView) scv.findViewById(R.id.shop_name)).setText(kks_item.name);
-        String amount_text = kks_item.mode.equals("euro") ? " Euro":" Prozent";
+        String amount_text = kks_item.mode.equals("euro") ? " " + getResources().getString(R.string.euros):" " + getResources().getString(R.string.percent);
         ((TextView) scv.findViewById(R.id.shop_donation_amount)).setText(String.valueOf(kks_item.amount));
         ((TextView) scv.findViewById(R.id.shop_donations_text)).setText(amount_text);
         scv.findViewById(R.id.shop_header_outer).setBackgroundColor(getResources().getColor(R.color.colorPrimary));
