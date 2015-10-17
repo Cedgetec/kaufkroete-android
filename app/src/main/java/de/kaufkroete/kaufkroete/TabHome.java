@@ -189,25 +189,29 @@ public class TabHome extends KaufkroeteFragment {
 
                 @Override
                 protected void onPostExecute(final String[] url) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Toast.makeText(getActivity(), url, Toast.LENGTH_SHORT).show();
-                            if(!url[0].isEmpty()&&!url[1].isEmpty()) {
-                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://kaufkroete.de/api/api_referrer.php?sid=" + url[0] + "&vid=" + url[1]));
-                                startActivity(browserIntent);
-                            } else {
-                                Toast.makeText(getActivity(),getString(R.string.please_select_first),Toast.LENGTH_SHORT).show();
-                            }
-                            ((MainActivity) getActivity()).pager.setCurrentItem(0);
+                    try {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //Toast.makeText(getActivity(), url, Toast.LENGTH_SHORT).show();
+                                if (!url[0].isEmpty() && !url[1].isEmpty()) {
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://kaufkroete.de/api/api_referrer.php?sid=" + url[0] + "&vid=" + url[1]));
+                                    startActivity(browserIntent);
+                                } else {
+                                    Toast.makeText(getActivity(), getString(R.string.please_select_first), Toast.LENGTH_SHORT).show();
+                                }
+                                ((MainActivity) getActivity()).pager.setCurrentItem(0);
                             /*try {
                                 ((MainActivity) getActivity()).selected_shop = -1;
                                 ((MainActivity) getActivity()).selected_societie = -1;
                             } catch(Exception e) {
                                 e.printStackTrace();
                             }*/
-                        }
-                    });
+                            }
+                        });
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }.execute(sid, vid);
         } catch(Exception e) {
