@@ -215,10 +215,10 @@ public class TabSocieties extends KaufkroeteFragment {
         AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT);
         scv.setLayoutParams(params);
         i.inflate(R.layout.societies_cardview_entry, scv, true);
-        String donations = String.valueOf(kks_item.donations) + " Donations";
+        String donations = String.valueOf(kks_item.donations) + " Spenden";
         ((TextView) scv.findViewById(R.id.society_donations)).setText(donations);
         ((TextView) scv.findViewById(R.id.society_name)).setText(kks_item.name);
-        String donation_amount = String.valueOf(kks_item.donations_amount) + " EUR";
+        String donation_amount = String.valueOf(kks_item.donations_amount) + " Euro";
         ((TextView) scv.findViewById(R.id.society_donation_amount)).setText(donation_amount);
         scv.findViewById(R.id.society_header_outer).setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         CardViewViewHolder vh = new CardViewViewHolder();
