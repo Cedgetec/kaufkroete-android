@@ -45,18 +45,25 @@ public class TabHome extends KaufkroeteFragment {
         iv_my_shop = (ImageView) mView.findViewById(R.id.my_shop_imageview);
         tv_my_society = (TextView) mView.findViewById(R.id.my_society);
         iv_my_society = (ImageView) mView.findViewById(R.id.my_society_imageview);
-        tv_my_shop.setOnClickListener(new View.OnClickListener() {
+
+        View.OnClickListener listen1 = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((MainActivity) getActivity()).pager.setCurrentItem(2);
             }
-        });
-        tv_my_society.setOnClickListener(new View.OnClickListener() {
+        };
+
+        tv_my_shop.setOnClickListener(listen1);
+        iv_my_shop.setOnClickListener(listen1);
+
+        View.OnClickListener listen2 = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((MainActivity) getActivity()).pager.setCurrentItem(1);
             }
-        });
+        };
+        tv_my_society.setOnClickListener(listen2);
+        iv_my_society.setOnClickListener(listen2);
         ((TextView) mView.findViewById(R.id.my_shop)).setText(String.valueOf(sharedPreferences.getString("shop_name", "N/A")));
         CardViewViewHolder cvh = new CardViewViewHolder();
         cvh.filename = String.valueOf(sharedPreferences.getString("shop_image_url", ""));
