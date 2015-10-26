@@ -43,9 +43,12 @@ public class TabHome extends KaufkroeteFragment {
     public TextView tv_donations;
     public TextView tv_date;
     private SharedPreferences sharedPreferences;
+    private MainActivity mainActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mainActivity = (MainActivity) getActivity();
+
         View v = inflater.inflate(R.layout.tab, container, false);
         sharedPreferences = this.getActivity().getSharedPreferences("metadata", Context.MODE_PRIVATE);
         mView = v;
@@ -74,18 +77,9 @@ public class TabHome extends KaufkroeteFragment {
 
                 @Override
                 protected CardViewViewHolder doInBackground(CardViewViewHolder... params) {
-                    //params[0].bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.block_house_steak);
                     try {
-                        Bitmap bitmap = cacheGetBitmap(params[0].filename);
-                        if (bitmap != null) {
-                            params[0].bitmap = bitmap;
-                        } else {
-                            bitmap = getSocietyImage(params[0].filename);
-                            cacheSaveBitmap(params[0].filename, bitmap);
-                            params[0].bitmap = bitmap;
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        params[0].bitmap = mainActivity.api.getSocietyImage(params[0].filename);
+                    } catch(IOException e) {
                         params[0].bitmap = null;
                     }
 
@@ -108,7 +102,7 @@ public class TabHome extends KaufkroeteFragment {
             }.execute(cvh);
         }
         CardViewViewHolder cvh2 = new CardViewViewHolder();
-        cvh2.filename = String.valueOf(sharedPreferences.getString("societie_image_url", ""));
+        cvh2.filename = String.valueOf(sharedPreferences.getString("society_image_url", ""));
         cvh2.imgview = iv_my_society;
         if(!cvh2.filename.isEmpty()) {
             new AsyncTask<CardViewViewHolder, Void, CardViewViewHolder>() {
@@ -117,16 +111,8 @@ public class TabHome extends KaufkroeteFragment {
                 protected CardViewViewHolder doInBackground(CardViewViewHolder... params) {
                     //params[0].bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.block_house_steak);
                     try {
-                        Bitmap bitmap = cacheGetBitmap(params[0].filename);
-                        if (bitmap != null) {
-                            params[0].bitmap = bitmap;
-                        } else {
-                            bitmap = getSocietyImage(params[0].filename);
-                            cacheSaveBitmap(params[0].filename, bitmap);
-                            params[0].bitmap = bitmap;
-                        }
+                        params[0].bitmap = mainActivity.api.getSocietyImage(params[0].filename);
                     } catch (IOException e) {
-                        e.printStackTrace();
                         params[0].bitmap = null;
                     }
 
@@ -148,7 +134,7 @@ public class TabHome extends KaufkroeteFragment {
                 }
             }.execute(cvh2);
         }
-        ((TextView) mView.findViewById(R.id.my_society)).setText(String.valueOf(sharedPreferences.getString("societie_name", "N/A")));
+        ((TextView) mView.findViewById(R.id.my_society)).setText(String.valueOf(sharedPreferences.getString("society_name", "N/A")));
         Button btn_go_shopping = (Button) mView.findViewById(R.id.go_shopping);
         btn_go_shopping.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -158,7 +144,7 @@ public class TabHome extends KaufkroeteFragment {
         });
         tv_donations = (TextView) mView.findViewById(R.id.tv_donations);
         tv_date = (TextView) mView.findViewById(R.id.tv_date);
-        getSumms(tv_donations, tv_date);
+        getSums(tv_donations, tv_date);
         return v;
     }
 
@@ -168,17 +154,17 @@ public class TabHome extends KaufkroeteFragment {
         if (visible) {
             if(mView!=null) {
                 ((TextView) mView.findViewById(R.id.my_shop)).setText(String.valueOf(sharedPreferences.getString("shop_name", "N/A")));
-                ((TextView) mView.findViewById(R.id.my_society)).setText(String.valueOf(sharedPreferences.getString("societie_name", "N/A")));
+                ((TextView) mView.findViewById(R.id.my_society)).setText(String.valueOf(sharedPreferences.getString("society_name", "N/A")));
             }
         }
     }
 
     private void openShop() {
         ((TextView) mView.findViewById(R.id.my_shop)).setText(String.valueOf(sharedPreferences.getString("shop_name", "N/A")));
-        ((TextView) mView.findViewById(R.id.my_society)).setText(String.valueOf(sharedPreferences.getString("societie_name", "N/A")));
+        ((TextView) mView.findViewById(R.id.my_society)).setText(String.valueOf(sharedPreferences.getString("society_name", "N/A")));
         try {
             String sid = String.valueOf(sharedPreferences.getLong("shop",-1));
-            String vid = String.valueOf(sharedPreferences.getLong("societie", -1));
+            String vid = String.valueOf(sharedPreferences.getLong("society", -1));
             new AsyncTask<String ,Void,String[]>() {
                 @Override
                 protected String[] doInBackground(String... strings) {
@@ -215,36 +201,15 @@ public class TabHome extends KaufkroeteFragment {
         }
     }
 
-    public void getSumms(TextView tv, TextView tv2) {
+    public void getSums(TextView tv, TextView tv2) {
         StatsViewHolder svh = new StatsViewHolder();
         svh.textview = tv;
         svh.textview2 = tv2;
-        new AsyncTask<StatsViewHolder ,Void, StatsViewHolder>() {
+        new AsyncTask<StatsViewHolder, Void, StatsViewHolder>() {
             @Override
             protected StatsViewHolder doInBackground(StatsViewHolder... svhs) {
-                try {
-                    String content;
-                    HttpURLConnection huc = openBlankConnection("http://kaufkroete.de/api/api_summen.php");
-                    if (huc.getResponseCode() == 200) {
-                        content = httpURLConnectionToString(huc);
-                        cacheSaveText("summs", content);
-                    } else {
-                        String cache_content = cacheGetText("summs");
-                        if (!cache_content.isEmpty()) {
-                            content = cache_content;
-                        } else {
-                            content = "";
-                        }
-                    }
-                    Log.e("kaufkroete", content);
-                    JSONArray j_arr = new JSONArray(content);
-                    JSONObject j_obj = j_arr.getJSONObject(0);
-                    svhs[0].value = new String[]{j_obj.getString("shopanzahl"),j_obj.getString("vereinsanzahl"),j_obj.getString("spendensumme"),String.valueOf(j_obj.getInt("spendenstand(unix)"))};
-                    return svhs[0];
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return svhs[0];
-                }
+                svhs[0].value = mainActivity.api.getStats();
+                return svhs[0];
             }
 
             @Override
@@ -252,7 +217,7 @@ public class TabHome extends KaufkroeteFragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(!svh.value[0].isEmpty()&&!svh.value[1].isEmpty()&&!svh.value[2].isEmpty()&&!svh.value[3].isEmpty()) {
+                        if (!svh.value[0].isEmpty() && !svh.value[1].isEmpty() && !svh.value[2].isEmpty() && !svh.value[3].isEmpty()) {
                             String donations = NumberFormat.getInstance().format(Double.parseDouble(svh.value[2])) + " EUR";
                             svh.textview.setText(donations);
                             String date = "(Stand: " + new SimpleDateFormat("dd. MMM yyyy", Locale.GERMAN).format(new Date()) + ")";
@@ -264,105 +229,10 @@ public class TabHome extends KaufkroeteFragment {
         }.execute(svh);
     }
 
-    public Bitmap cacheGetBitmap(String filename) {
-        try {
-            return BitmapFactory.decodeStream(getActivity().openFileInput(hashString("cache_" + filename)));
-        } catch(Exception e) {
-            return null;
-        }
-    }
-
-    private void cacheSaveBitmap(String filename, Bitmap image) {
-        try {
-            OutputStream fos = getActivity().openFileOutput(hashString("cache_" + filename), Context.MODE_PRIVATE);
-            image.compress(Bitmap.CompressFormat.PNG, 90, fos);
-            fos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String hashString(String in) throws Exception {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(in.getBytes());
-
-        byte byteData[] = md.digest();
-
-        //convert the byte to hex format method 1
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < byteData.length; i++) {
-            sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-        }
-
-        System.out.println("Hex format : " + sb.toString());
-
-        //convert the byte to hex format method 2
-        StringBuffer hexString = new StringBuffer();
-        for (int i=0;i<byteData.length;i++) {
-            String hex=Integer.toHexString(0xff & byteData[i]);
-            if(hex.length()==1) hexString.append('0');
-            hexString.append(hex);
-        }
-
-        return hexString.toString();
-    }
-
-    public String cacheGetText(String filename) {
-        String ret = "";
-        try {
-            InputStream inputStream = getActivity().openFileInput(hashString("cache_text_" + filename));
-
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString;
-                StringBuilder stringBuilder = new StringBuilder();
-
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    stringBuilder.append(receiveString);
-                }
-
-                inputStream.close();
-                ret = stringBuilder.toString();
-            }
-        }
-        catch(FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch(IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-
-        return ret;
-    }
-
-    private void cacheSaveText(String filename, String content) {
-        try {
-            OutputStream fos = getActivity().openFileOutput(hashString("cache_text_" + filename), Context.MODE_PRIVATE);
-            fos.write(content.getBytes());
-            fos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Bitmap getSocietyImage(String filename) throws IOException {
-
-        HttpURLConnection con = openBlankConnection(filename);
-        con.setRequestMethod("GET");
-
-        if(con.getResponseCode() == 200) {
-            return BitmapFactory.decodeStream(con.getInputStream());
-        } else {
-            throw new IOException();
-        }
-    }
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser&&(sharedPreferences!=null)) {
+        if(isVisibleToUser && sharedPreferences != null) {
             CardViewViewHolder cvh = new CardViewViewHolder();
             cvh.filename = String.valueOf(sharedPreferences.getString("shop_image_url", ""));
             cvh.imgview = iv_my_shop;
@@ -371,20 +241,13 @@ public class TabHome extends KaufkroeteFragment {
 
                     @Override
                     protected CardViewViewHolder doInBackground(CardViewViewHolder... params) {
-                        //params[0].bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.block_house_steak);
                         try {
-                            Bitmap bitmap = cacheGetBitmap(params[0].filename);
-                            if (bitmap != null) {
-                                params[0].bitmap = bitmap;
-                            } else {
-                                bitmap = getSocietyImage(params[0].filename);
-                                cacheSaveBitmap(params[0].filename, bitmap);
-                                params[0].bitmap = bitmap;
-                            }
-                        } catch (IOException e) {
+                            params[0].bitmap = mainActivity.api.getSocietyImage(params[0].filename);
+                        } catch(Exception e) {
                             e.printStackTrace();
                             params[0].bitmap = null;
                         }
+
 
                         return params[0];
                     }
@@ -405,24 +268,16 @@ public class TabHome extends KaufkroeteFragment {
                 }.execute(cvh);
             }
             CardViewViewHolder cvh2 = new CardViewViewHolder();
-            cvh2.filename = String.valueOf(sharedPreferences.getString("societie_image_url", ""));
+            cvh2.filename = String.valueOf(sharedPreferences.getString("society_image_url", ""));
             cvh2.imgview = iv_my_society;
             if(!cvh2.filename.isEmpty()) {
                 new AsyncTask<CardViewViewHolder, Void, CardViewViewHolder>() {
 
                     @Override
                     protected CardViewViewHolder doInBackground(CardViewViewHolder... params) {
-                        //params[0].bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.block_house_steak);
                         try {
-                            Bitmap bitmap = cacheGetBitmap(params[0].filename);
-                            if (bitmap != null) {
-                                params[0].bitmap = bitmap;
-                            } else {
-                                bitmap = getSocietyImage(params[0].filename);
-                                cacheSaveBitmap(params[0].filename, bitmap);
-                                params[0].bitmap = bitmap;
-                            }
-                        } catch (IOException e) {
+                            params[0].bitmap = mainActivity.api.getSocietyImage(params[0].filename);
+                        } catch(Exception e) {
                             e.printStackTrace();
                             params[0].bitmap = null;
                         }

@@ -1,6 +1,7 @@
 package de.kaufkroete.kaufkroete;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -22,13 +23,21 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         te0.title = context.getResources().getString(R.string.home);
         te0.fragment = new TabHome();
         al_tabs.add(te0);
+
         TabElement te1 = new TabElement();
         te1.title = context.getResources().getString(R.string.societies);
-        te1.fragment = new TabSocieties();
+        te1.fragment = new ListTab();
+        Bundle bn1 = new Bundle();
+        bn1.putString("type", ListTab.TabType.TAB_SOCIETIES.toString());
+        te1.fragment.setArguments(bn1);
         al_tabs.add(te1);
+
         TabElement te2 = new TabElement();
         te2.title = context.getResources().getString(R.string.shops);
-        te2.fragment = new TabShops();
+        te2.fragment = new ListTab();
+        Bundle bn2 = new Bundle();
+        bn2.putString("type", ListTab.TabType.TAB_SHOPS.toString());
+        te2.fragment.setArguments(bn2);
         al_tabs.add(te2);
     }
 

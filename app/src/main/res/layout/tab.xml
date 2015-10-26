@@ -109,7 +109,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/donations"
+            android:text="@string/donations_total"
             android:textSize="20sp"
             android:layout_margin="17dp"
             android:textAllCaps="true"
