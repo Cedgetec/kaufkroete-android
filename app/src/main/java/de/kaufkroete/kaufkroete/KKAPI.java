@@ -131,6 +131,12 @@ public class KKAPI {
             kks.sid = rec.getInt("sid");
             kks.name = rec.getString("name");
             kks.detail = rec.getString("mode");
+            if(kks.detail.equals("percent")) {
+                kks.detail = context.getString(R.string.percent);
+            } else if(kks.detail.equals("euro")) {
+                kks.detail = context.getString(R.string.euro);
+            }
+
             kks.info = "" + rec.getDouble("amount");
             kks.imageUrl = new URL(rec.getString("image_url"));
             data.add(kks);

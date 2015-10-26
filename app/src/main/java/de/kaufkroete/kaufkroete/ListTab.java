@@ -13,20 +13,17 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.net.URL;
@@ -35,7 +32,7 @@ import java.util.ArrayList;
 public class ListTab extends KaufkroeteFragment {
 
     private MainActivity mainActivity;
-    private KKFragmentAdapter sfla;
+    private KKDataAdapter sfla;
     private ViewHolder vh;
     private SwipeRefreshLayout srl;
     private ListView lv;
@@ -83,7 +80,7 @@ public class ListTab extends KaufkroeteFragment {
             }
         });
 
-        sfla = new KKFragmentAdapter(getData(), this);
+        sfla = new KKDataAdapter(getData(), this);
         lv.setAdapter(sfla);
         vh = new ViewHolder();
         vh.view.add(lv);
@@ -229,8 +226,6 @@ public class ListTab extends KaufkroeteFragment {
         }.execute(vh);
         return scv;
     }
-
-
 
     private class CardViewViewHolder {
         ImageView imgview;
