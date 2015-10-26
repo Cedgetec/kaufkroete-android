@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -160,11 +161,20 @@ public class TabHome extends KaufkroeteFragment {
     }
 
     private void openShop() {
-        ((TextView) mView.findViewById(R.id.my_shop)).setText(String.valueOf(sharedPreferences.getString("shop_name", "N/A")));
-        ((TextView) mView.findViewById(R.id.my_society)).setText(String.valueOf(sharedPreferences.getString("society_name", "N/A")));
+        // ???
+        //((TextView) mView.findViewById(R.id.my_shop)).setText(String.valueOf(sharedPreferences.getString("shop_name", "N/A")));
+        //((TextView) mView.findViewById(R.id.my_society)).setText(String.valueOf(sharedPreferences.getString("society_name", "N/A")));
+
+        long sid = sharedPreferences.getLong("shop",-1);
+        long vid = sharedPreferences.getLong("society", -1);
+        if(sid == -1 || vid == -1) {
+            if(getView() != null)
+                Snackbar.make(getView(), R.string.please_select_first, Snackbar.LENGTH_SHORT).show();
+            return;
+        }
+
         try {
-            String sid = String.valueOf(sharedPreferences.getLong("shop",-1));
-            String vid = String.valueOf(sharedPreferences.getLong("society", -1));
+
             new AsyncTask<String ,Void,String[]>() {
                 @Override
                 protected String[] doInBackground(String... strings) {
@@ -178,24 +188,14 @@ public class TabHome extends KaufkroeteFragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            //Toast.makeText(getActivity(), url, Toast.LENGTH_SHORT).show();
-                            if(!url[0].isEmpty()&&!url[1].isEmpty()) {
-                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://kaufkroete.de/api/api_referrer.php?sid=" + url[0] + "&vid=" + url[1]));
-                                startActivity(browserIntent);
-                            } else {
-                                Toast.makeText(getActivity(),getString(R.string.please_select_first),Toast.LENGTH_SHORT).show();
-                            }
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://kaufkroete.de/api/api_referrer.php?sid=" + url[0] + "&vid=" + url[1]));
+                            startActivity(browserIntent);
                             ((MainActivity) getActivity()).pager.setCurrentItem(0);
-                            /*try {
-                                ((MainActivity) getActivity()).selected_shop = -1;
-                                ((MainActivity) getActivity()).selected_societie = -1;
-                            } catch(Exception e) {
-                                e.printStackTrace();
-                            }*/
+
                         }
                     });
                 }
-            }.execute(sid, vid);
+            }.execute(Long.toString(sid), Long.toString(vid));
         } catch(Exception e) {
             e.printStackTrace();
         }
