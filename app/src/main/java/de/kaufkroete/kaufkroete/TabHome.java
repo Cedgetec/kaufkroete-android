@@ -202,17 +202,13 @@ public class TabHome extends KaufkroeteFragment {
 
             @Override
             protected void onPostExecute(final StatsViewHolder svh) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (!svh.value[0].isEmpty() && !svh.value[1].isEmpty() && !svh.value[2].isEmpty() && !svh.value[3].isEmpty()) {
-                            String donations = NumberFormat.getInstance().format(Double.parseDouble(svh.value[2])) + " EUR";
-                            svh.textview.setText(donations);
-                            String date = "(Stand: " + new SimpleDateFormat("dd. MMM yyyy", Locale.GERMAN).format(new Date()) + ")";
-                            svh.textview2.setText(date);
-                        }
-                    }
-                });
+                //onPostExecute runs on UI thread
+                if (!svh.value[0].isEmpty() && !svh.value[1].isEmpty() && !svh.value[2].isEmpty() && !svh.value[3].isEmpty()) {
+                    String donations = NumberFormat.getInstance().format(Double.parseDouble(svh.value[2])) + " EUR";
+                    svh.textview.setText(donations);
+                    String date = "(Stand: " + new SimpleDateFormat("dd. MMM yyyy", Locale.GERMAN).format(new Date()) + ")";
+                    svh.textview2.setText(date);
+                }
             }
         }.execute(svh);
     }

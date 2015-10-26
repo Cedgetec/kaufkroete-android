@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -231,21 +232,31 @@ public class KKAPI {
     }
 
     public String[] getStats() {
+        String content = "";
+
         try {
-            String content;
             HttpURLConnection huc = openBlankConnection("http://kaufkroete.de/api/api_summen.php");
             if (huc.getResponseCode() == 200) {
                 content = readStream(huc.getInputStream());
-                cacheSaveText("summ", content);
+                cacheSaveText("stats", content);
 
-            } else {
-                content = cacheGetText("sums");
             }
-
-            JSONObject j_obj = new JSONArray(content).getJSONObject(0);
-            return new String[]{j_obj.getString("shopanzahl"), j_obj.getString("vereinsanzahl"), j_obj.getString("spendensumme"), String.valueOf(j_obj.getInt("spendenstand(unix)"))};
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            content = cacheGetText("stats");
+        }
+
+        if (!content.isEmpty()) {
+            try {
+                JSONObject j_obj = new JSONArray(content).getJSONObject(0);
+                return new String[]{ j_obj.getString("shopanzahl"), j_obj.getString("vereinsanzahl"),
+                        j_obj.getString("spendensumme"), String.valueOf(j_obj.getInt("spendenstand(unix)")) };
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
             return null;
         }
     }
