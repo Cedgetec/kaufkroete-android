@@ -48,9 +48,10 @@
                     android:layout_height="100dp"
                     android:id="@+id/my_society_imageview"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitCenter"
                     android:layout_margin="6dp"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:src="@drawable/choose" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -82,7 +83,8 @@
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     android:layout_margin="6dp"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:src="@drawable/choose" />
 
                 <TextView
                     android:layout_width="match_parent"
