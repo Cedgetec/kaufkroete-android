@@ -155,9 +155,21 @@ public class ListTab extends KaufkroeteFragment {
 
                 getData().clear();
 
+                int item_count = 0;
                 for(KKData shop : vh.content) {
                     if(cb_show_all.isChecked() || (!filter.isEmpty() && shop.name.toLowerCase().contains(filter.toLowerCase()))) {
-                        getData().add(shop);
+                        if (!filter.isEmpty()) {
+                            if (shop.name.toLowerCase().contains(filter.toLowerCase())) {
+                                getData().add(shop);
+                            }
+                        } else {
+                            getData().add(shop);
+                        }
+                    } else {
+                        if((item_count<10) && filter.isEmpty()) {
+                            getData().add(shop);
+                            item_count++;
+                        }
                     }
                 }
 
@@ -176,7 +188,7 @@ public class ListTab extends KaufkroeteFragment {
         scv.setLayoutParams(params);
         i.inflate(R.layout.shops_cardview_entry, scv, true);
         ((TextView) scv.findViewById(R.id.shop_name)).setText(kks_item.name);
-        ((TextView) scv.findViewById(R.id.shop_donation_amount)).setText(kks_item.info);
+        ((TextView) scv.findViewById(R.id.shop_donation_amount)).setText(kks_item.info.replace(".",","));
         ((TextView) scv.findViewById(R.id.shop_donations_text)).setText(kks_item.detail);
         scv.findViewById(R.id.shop_header_outer).setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
         CardViewViewHolder vh = new CardViewViewHolder();
