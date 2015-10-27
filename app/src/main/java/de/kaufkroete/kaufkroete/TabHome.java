@@ -43,8 +43,10 @@ public class TabHome extends KaufkroeteFragment {
         mView = v;
         tv_my_shop = (TextView) mView.findViewById(R.id.my_shop);
         iv_my_shop = (ImageView) mView.findViewById(R.id.my_shop_imageview);
+        iv_my_shop.setAlpha(0.7f);
         tv_my_society = (TextView) mView.findViewById(R.id.my_society);
         iv_my_society = (ImageView) mView.findViewById(R.id.my_society_imageview);
+        iv_my_society.setAlpha(0.7f);
 
         View.OnClickListener listen1 = new View.OnClickListener() {
             @Override
