@@ -21,6 +21,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class KKAPI {
@@ -134,11 +135,13 @@ public class KKAPI {
             kks.detail = rec.getString("mode");
             if(kks.detail.equals("percent")) {
                 kks.detail = context.getString(R.string.percent);
+                kks.info = new DecimalFormat("#.#").format(rec.getDouble("amount"));
             } else if(kks.detail.equals("euro")) {
                 kks.detail = context.getString(R.string.euro);
+                kks.info = new DecimalFormat("#.##").format(rec.getDouble("amount"));
             }
 
-            kks.info = "" + rec.getDouble("amount");
+
             kks.imageUrl = new URL(rec.getString("image_url"));
             data.add(kks);
         }
