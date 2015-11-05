@@ -109,8 +109,16 @@ public class TabHome extends KaufkroeteFragment {
                 protected CardViewViewHolder doInBackground(CardViewViewHolder... params) {
                     //params[0].bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.block_house_steak);
                     try {
-                        params[0].bitmap = mainActivity.api.getSocietyImage(params[0].filename);
+                        Bitmap bitmap = mainActivity.api.cacheGetBitmap(params[0].filename);
+                        if(bitmap!=null) {
+                            params[0].bitmap = bitmap;
+                        } else {
+                            bitmap = mainActivity.api.getSocietyImage(params[0].filename);
+                            mainActivity.api.cacheSaveBitmap(params[0].filename, bitmap);
+                            params[0].bitmap = bitmap;
+                        }
                     } catch (IOException e) {
+                        e.printStackTrace();
                         params[0].bitmap = null;
                     }
 
@@ -235,12 +243,18 @@ public class TabHome extends KaufkroeteFragment {
                     @Override
                     protected CardViewViewHolder doInBackground(CardViewViewHolder... params) {
                         try {
-                            params[0].bitmap = mainActivity.api.getSocietyImage(params[0].filename);
-                        } catch(Exception e) {
+                            Bitmap bitmap = mainActivity.api.cacheGetBitmap(params[0].filename);
+                            if(bitmap!=null) {
+                                params[0].bitmap = bitmap;
+                            } else {
+                                bitmap = mainActivity.api.getSocietyImage(params[0].filename);
+                                mainActivity.api.cacheSaveBitmap(params[0].filename, bitmap);
+                                params[0].bitmap = bitmap;
+                            }
+                        } catch (IOException e) {
                             e.printStackTrace();
                             params[0].bitmap = null;
                         }
-
 
                         return params[0];
                     }
@@ -252,7 +266,7 @@ public class TabHome extends KaufkroeteFragment {
                             if (result.bitmap != null) {
                                 imgView.setImageBitmap(result.bitmap);
                             } else {
-                                imgView.setImageBitmap(BitmapFactory.decodeResource(getResources(), android.R.drawable.alert_dark_frame));
+                                imgView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.choose));
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -269,8 +283,15 @@ public class TabHome extends KaufkroeteFragment {
                     @Override
                     protected CardViewViewHolder doInBackground(CardViewViewHolder... params) {
                         try {
-                            params[0].bitmap = mainActivity.api.getSocietyImage(params[0].filename);
-                        } catch(Exception e) {
+                            Bitmap bitmap = mainActivity.api.cacheGetBitmap(params[0].filename);
+                            if(bitmap!=null) {
+                                params[0].bitmap = bitmap;
+                            } else {
+                                bitmap = mainActivity.api.getSocietyImage(params[0].filename);
+                                mainActivity.api.cacheSaveBitmap(params[0].filename, bitmap);
+                                params[0].bitmap = bitmap;
+                            }
+                        } catch (IOException e) {
                             e.printStackTrace();
                             params[0].bitmap = null;
                         }
@@ -285,7 +306,7 @@ public class TabHome extends KaufkroeteFragment {
                             if (result.bitmap != null) {
                                 imgView.setImageBitmap(result.bitmap);
                             } else {
-                                imgView.setImageBitmap(BitmapFactory.decodeResource(getResources(), android.R.drawable.alert_dark_frame));
+                                imgView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.choose));
                             }
                         } catch (Exception e) {
                             e.printStackTrace();

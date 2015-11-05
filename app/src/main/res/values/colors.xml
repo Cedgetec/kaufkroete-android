@@ -3,4 +3,5 @@
     <item name="windowBackground" type="color">#eee</item>
     <item name="colorPrimary" type="color">#2979FF</item>
     <item name="colorPrimaryDark" type="color">#2962FF</item>
+    <item name="white" type="color">#FFF</item>
 </resources>
