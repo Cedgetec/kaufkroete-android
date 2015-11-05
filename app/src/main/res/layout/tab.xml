@@ -43,9 +43,12 @@
                     android:gravity="center" />
 
                 <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    card_view:cardBackgroundColor="#fff">
 
                     <ImageView
                         android:layout_width="100dp"
@@ -81,9 +84,12 @@
                     android:gravity="center" />
 
                 <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    card_view:cardBackgroundColor="#fff">
 
                     <ImageView
                         android:layout_width="100dp"
@@ -130,8 +136,11 @@
             android:gravity="center" />
 
         <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            card_view:cardBackgroundColor="#fff">
 
             <LinearLayout
                 android:layout_width="match_parent"
