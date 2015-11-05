@@ -32,8 +32,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_weight="0.5"
-                android:layout_marginRight="10dp">
+                android:layout_weight="0.5">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -43,15 +42,21 @@
                     android:textSize="18sp"
                     android:gravity="center" />
 
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:id="@+id/my_society_imageview"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:layout_margin="6dp"
+                <android.support.v7.widget.CardView
                     android:layout_gravity="center"
-                    android:src="@drawable/choose" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/my_society_imageview"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:layout_margin="6dp"
+                        android:src="@drawable/choose" />
+
+                </android.support.v7.widget.CardView>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -65,8 +70,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_weight="0.5"
-                android:layout_marginLeft="10dp">
+                android:layout_weight="0.5">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -76,15 +80,21 @@
                     android:textSize="18sp"
                     android:gravity="center" />
 
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:id="@+id/my_shop_imageview"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:layout_margin="6dp"
+                <android.support.v7.widget.CardView
                     android:layout_gravity="center"
-                    android:src="@drawable/choose" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/my_shop_imageview"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:layout_margin="6dp"
+                        android:src="@drawable/choose" />
+
+                </android.support.v7.widget.CardView>
 
                 <TextView
                     android:layout_width="match_parent"
