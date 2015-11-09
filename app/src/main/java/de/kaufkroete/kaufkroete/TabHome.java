@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -223,7 +224,9 @@ public class TabHome extends KaufkroeteFragment {
                 if (!svh.value[0].isEmpty() && !svh.value[1].isEmpty() && !svh.value[2].isEmpty() && !svh.value[3].isEmpty()) {
                     String donations = NumberFormat.getInstance().format(Double.parseDouble(svh.value[2])) + " EUR";
                     svh.textview.setText(donations);
-                    String date = "(Stand: " + new SimpleDateFormat("dd. MMM yyyy", Locale.GERMAN).format(new Date()) + ")";
+                    Log.e("Date", svh.value[3]);
+                    java.util.Date time=new java.util.Date((long)Long.parseLong(svh.value[3])*1000);
+                    String date = "(Stand: " + new SimpleDateFormat("dd. MMM yyyy", Locale.GERMAN).format(time) + ")";
                     svh.textview2.setText(date);
                 }
             }
