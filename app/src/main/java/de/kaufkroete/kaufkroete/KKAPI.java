@@ -188,7 +188,10 @@ public class KKAPI {
         con.setRequestMethod("GET");
 
         if(con.getResponseCode() == 200) {
-            return BitmapFactory.decodeStream(con.getInputStream());
+            Bitmap b =  BitmapFactory.decodeStream(con.getInputStream());
+            cacheSaveBitmap(filename, b);
+            b = cacheGetBitmap(filename);
+            return b;
         } else {
             throw new IOException();
         }

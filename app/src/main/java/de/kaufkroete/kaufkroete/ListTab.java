@@ -203,12 +203,11 @@ public class ListTab extends KaufkroeteFragment {
             protected CardViewViewHolder doInBackground(CardViewViewHolder... params) {
                 //params[0].bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.block_house_steak);
                 try {
-                    Bitmap bitmap = mainActivity.api.cacheGetBitmap(params[0].filename.getFile());
+                    Bitmap bitmap = mainActivity.api.cacheGetBitmap(params[0].filename.toString());
                     if(bitmap!=null) {
                         params[0].bitmap = bitmap;
                     } else {
                         bitmap = mainActivity.api.getSocietyImage(params[0].filename.toString());
-                        mainActivity.api.cacheSaveBitmap(params[0].filename.getFile(), bitmap);
                         params[0].bitmap = bitmap;
                     }
                 } catch (IOException e) {

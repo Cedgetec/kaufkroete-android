@@ -76,10 +76,17 @@ public class TabHome extends KaufkroeteFragment {
 
                 @Override
                 protected CardViewViewHolder doInBackground(CardViewViewHolder... params) {
-                    try {
-                        params[0].bitmap = mainActivity.api.getSocietyImage(params[0].filename);
-                    } catch(IOException e) {
-                        params[0].bitmap = null;
+                    Bitmap bitmap = mainActivity.api.cacheGetBitmap(params[0].filename);
+                    if(bitmap!=null) {
+                        params[0].bitmap = bitmap;
+                    } else {
+                        try {
+                            bitmap = mainActivity.api.getSocietyImage(params[0].filename);
+                            params[0].bitmap = bitmap;
+                        } catch(IOException e) {
+                            e.printStackTrace();
+                            params[0].bitmap = null;
+                        }
                     }
 
                     return params[0];
@@ -115,7 +122,6 @@ public class TabHome extends KaufkroeteFragment {
                             params[0].bitmap = bitmap;
                         } else {
                             bitmap = mainActivity.api.getSocietyImage(params[0].filename);
-                            mainActivity.api.cacheSaveBitmap(params[0].filename, bitmap);
                             params[0].bitmap = bitmap;
                         }
                     } catch (IOException e) {
@@ -247,11 +253,10 @@ public class TabHome extends KaufkroeteFragment {
                     protected CardViewViewHolder doInBackground(CardViewViewHolder... params) {
                         try {
                             Bitmap bitmap = mainActivity.api.cacheGetBitmap(params[0].filename);
-                            if(bitmap!=null) {
+                            if(bitmap != null) {
                                 params[0].bitmap = bitmap;
                             } else {
                                 bitmap = mainActivity.api.getSocietyImage(params[0].filename);
-                                mainActivity.api.cacheSaveBitmap(params[0].filename, bitmap);
                                 params[0].bitmap = bitmap;
                             }
                         } catch (IOException e) {
@@ -291,7 +296,6 @@ public class TabHome extends KaufkroeteFragment {
                                 params[0].bitmap = bitmap;
                             } else {
                                 bitmap = mainActivity.api.getSocietyImage(params[0].filename);
-                                mainActivity.api.cacheSaveBitmap(params[0].filename, bitmap);
                                 params[0].bitmap = bitmap;
                             }
                         } catch (IOException e) {
