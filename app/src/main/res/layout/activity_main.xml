@@ -12,11 +12,16 @@
         android:id="@+id/toolbar"
         app:theme="@style/ToolBarStyle"/>
 
-    <de.kaufkroete.kaufkroete.SlidingTabLayout
-        android:id="@+id/slidingtabs"
+    <android.support.design.widget.TabLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"/>
+        android:background="?attr/colorPrimary"
+        app:tabIndicatorHeight="2dp"
+        app:tabIndicatorColor="@color/TabIndicator"
+        app:tabTextColor="@color/TabText"
+        app:tabSelectedTextColor="@color/TabSelectedText"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

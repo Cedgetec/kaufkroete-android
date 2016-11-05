@@ -71,7 +71,7 @@ public class ListTab extends KaufkroeteFragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ((MainActivity) getActivity()).pager.setCurrentItem(0);
+                        ((MainActivity) getActivity()).mViewPager.setCurrentItem(0);
                     }
                 });
 

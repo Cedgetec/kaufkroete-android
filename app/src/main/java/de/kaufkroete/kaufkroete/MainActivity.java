@@ -2,6 +2,7 @@ package de.kaufkroete.kaufkroete;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -13,9 +14,9 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
-    public ViewPager pager;
+    ViewPager mViewPager;
     ViewPagerAdapter adapter;
-    SlidingTabLayout tabs;
+    TabLayout mTabLayout;
 
     ArrayList<KKData> shops;
     ArrayList<KKData> societies;
@@ -41,20 +42,12 @@ public class MainActivity extends AppCompatActivity {
 
         adapter =  new ViewPagerAdapter(getSupportFragmentManager(), this);
 
-        pager = (ViewPager) findViewById(R.id.viewpager);
-        pager.setAdapter(adapter);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        mViewPager.setAdapter(adapter);
+        mViewPager.setOffscreenPageLimit(2);
 
-        tabs = (SlidingTabLayout) findViewById(R.id.slidingtabs);
-        tabs.setDistributeEvenly(true);
-
-        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-            @Override
-            public int getIndicatorColor(int position) {
-                return Color.WHITE;
-            }
-        });
-
-        tabs.setViewPager(pager);
+        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        mTabLayout.setupWithViewPager(mViewPager);
 
     }
 

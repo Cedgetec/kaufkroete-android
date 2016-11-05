@@ -52,7 +52,7 @@ public class TabHome extends KaufkroeteFragment {
         View.OnClickListener listen1 = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).pager.setCurrentItem(2);
+                ((MainActivity) getActivity()).mViewPager.setCurrentItem(2);
             }
         };
 
@@ -62,7 +62,7 @@ public class TabHome extends KaufkroeteFragment {
         View.OnClickListener listen2 = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).pager.setCurrentItem(1);
+                ((MainActivity) getActivity()).mViewPager.setCurrentItem(1);
             }
         };
         tv_my_society.setOnClickListener(listen2);
@@ -202,7 +202,7 @@ public class TabHome extends KaufkroeteFragment {
                         public void run() {
                             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://kaufkroete.de/api/api_referrer.php?sid=" + url[0] + "&vid=" + url[1]));
                             startActivity(browserIntent);
-                            ((MainActivity) getActivity()).pager.setCurrentItem(0);
+                            ((MainActivity) getActivity()).mViewPager.setCurrentItem(0);
 
                         }
                     });

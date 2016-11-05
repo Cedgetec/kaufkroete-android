@@ -4,4 +4,8 @@
     <item name="colorPrimary" type="color">#2979FF</item>
     <item name="colorPrimaryDark" type="color">#2962FF</item>
     <item name="white" type="color">#FFF</item>
+
+    <color name="TabIndicator">#ffffff</color>
+    <color name="TabText">#b3ffffff</color>
+    <color name="TabSelectedText">#ffffff</color>
 </resources>
